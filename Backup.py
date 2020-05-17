@@ -28,7 +28,7 @@ def commit_to_master(dir_path, root_path, now_time):
             backup_dir = root_path + "\\" + "BACKUP" +"\\" + now_time + dir_path[len(root_path):] + folder + "\\"
 
             if os.path.exists(backup_dir) == False:
-                os.mkdir(backup_dir)
+                os.makedirs(backup_dir)
 
             commit_to_master(dir_path + folder,root_path, now_time)
 
@@ -41,7 +41,7 @@ def commit_to_master(dir_path, root_path, now_time):
             revision_exists = True
             mtime = 0.0
             while revision_exists:
-                dst = backup_path + str(current_revision) + "_" + file
+                dst = backup_path + "Backup" + "_" + file
                 if os.path.exists(dst):
                     current_revision = current_revision + 1
                     mtime = os.path.getmtime(dst)
@@ -62,8 +62,8 @@ if __name__ == '__main__':
 
     print("Performing backup on all modified project files.")
     start_time = time.time()
-    root_path = os.path.dirname(os.path.realpath(__file__)) + "\\" + "Development"
+    root_path = os.path.dirname(os.path.realpath(__file__))
     now_time = datetime.datetime.now().strftime("%m_%d_%Y %a %I-%M-%S %p")
-    commit_to_master(root_path,root_path,now_time)
+    commit_to_master(root_path+"\\" + "Master",root_path,now_time)
 
     print("---- Backup completed in %.3f seconds ---" %(time.time() - start_time))
